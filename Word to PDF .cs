@@ -1,43 +1,84 @@
+using Microsoft.Office.Interop.Word;
+
+
+OpenFileDialog file2 = new OpenFileDialog(); // sadece word iÃ§in
+
+private void DosyaSec_Click(object sender, EventArgs e) //dosya seÃ§ butonu
+        {
+
+            file2.Title = "Kelime Aranacak DosyayÄ± SeÃ§iniz..";
+            file2.Filter = @"Word DosyalarÄ± (.docx ,.doc)|*.docx;*.doc";
+            file2.FilterIndex = 1;
+            file2.Multiselect = true;
+
+            if (file2.ShowDialog() == DialogResult.OK)
+            {
+                // dosya seÃ§ildi ise
+
+
+                string[] worddosyaIsimler = file2.SafeFileNames; //Ã‡oklu seÃ§imdeki dosyalarÄ±n ismi
+                string[] worddosyalar = file2.FileNames;
+                string yaziolarak ="";
+                for (int i = 0; i < worddosyaIsimler.Length; i++)
+                {
+                    yaziolarak = yaziolarak + worddosyaIsimler[i] + "\n";
+                }
+
+                MessageBox.Show("SeÃ§ilen Dosyalar : \n------------------------\n" + yaziolarak,
+    "SeÃ§im Ã–zet");
+
+                button5.BackColor = Color.Green;
+                button5.ForeColor = Color.White;
+
+            }
+
+        }
+
+
+
+
+private void PdfCevir_Click(object sender, EventArgs e) //Ã‡evir
+
 string[] worddosyalar = file2.FileNames;
             string[] wordisimler = file2.SafeFileNames;
 
             try
             {
-                //Dosya Varmý Yokmu ? - Yoksa Oluþtur..
+                //Dosya VarmÄ± Yokmu ? - Yoksa OluÅŸtur..
                 string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 if (!Directory.Exists(Path.GetDirectoryName(path + @"\Yeni_Pdf_Dosyalari\")))
                 {
-                    Directory.CreateDirectory(Path.GetDirectoryName(path + @"\Yeni_Pdf_Dosyalarý\"));
+                    Directory.CreateDirectory(Path.GetDirectoryName(path + @"\Yeni_Pdf_DosyalarÄ±\"));
 
                 }
 
 
-                //PDF çevirme kodlarýmýz.
+                //PDF Ã§evirme kodlarÄ±mÄ±z.
                 Microsoft.Office.Interop.Word.Application appWord = new Microsoft.Office.Interop.Word.Application();
 
 
                 int i = 0;
-                if (worddosyalar.Length > 0) //Dosya Seçilmiþ mi ? 
+                if (worddosyalar.Length > 0) //Dosya SeÃ§ilmiÅŸ mi ? 
                 {
 
 
                     foreach (var dosya in worddosyalar)
                     {
                         wordDocument = appWord.Documents.Open(dosya);
-                        wordDocument.ExportAsFixedFormat(path + @"\Yeni_Pdf_Dosyalarý\" + wordisimler[i] + ".pdf",
+                        wordDocument.ExportAsFixedFormat(path + @"\Yeni_Pdf_DosyalarÄ±\" + wordisimler[i] + ".pdf",
                             WdExportFormat.wdExportFormatPDF);
                         i++;
 
                         backgroundWorker2.ReportProgress(i);//progres bar'a rapor..
                     }
-                    MessageBox.Show("Dönüþtürme Baþarýlý bir þekilde yapýldý\n Konum:\n\n" + path + @"\Yeni_Pdf_Dosyalarý", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("DÃ¶nÃ¼ÅŸtÃ¼rme BaÅŸarÄ±lÄ± bir ÅŸekilde yapÄ±ldÄ±\n Konum:\n\n" + path + @"\Yeni_Pdf_DosyalarÄ±", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
                 }
 
                 else
                 {
-                    MessageBox.Show("Lütfen ilk önce dosyalarý seçin !", "Uyarý", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("LÃ¼tfen ilk Ã¶nce dosyalarÄ± seÃ§in !", "UyarÄ±", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
 
@@ -45,8 +86,8 @@ string[] worddosyalar = file2.FileNames;
             catch (Exception)
             {
 
-                MessageBox.Show("Hata Oluþtu \nDosya bozuk olabilir.\nDosya kullanýlýyor olabilir.\nSeçtiðiniz dosyanýn PDF'i zaten ayný konumda olabilir. \nTekrar Deneyin...\n\nCTRL Shift ve Esc Tuþlarýna ayný anda basýn\nTüm Word Dosyalarýný Kapatýn!",
-                     "Uyarý",
+                MessageBox.Show("Hata OluÅŸtu \nDosya bozuk olabilir.\nDosya kullanÄ±lÄ±yor olabilir.\nSeÃ§tiÄŸiniz dosyanÄ±n PDF'i zaten aynÄ± konumda olabilir. \nTekrar Deneyin...\n\nCTRL Shift ve Esc TuÅŸlarÄ±na aynÄ± anda basÄ±n\nTÃ¼m Word DosyalarÄ±nÄ± KapatÄ±n!",
+                     "UyarÄ±",
                      MessageBoxButtons.OK,
                      MessageBoxIcon.Exclamation,
                      MessageBoxDefaultButton.Button1);
