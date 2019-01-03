@@ -69,7 +69,6 @@ string[] worddosyalar = file2.FileNames;
                             WdExportFormat.wdExportFormatPDF);
                         i++;
 
-                        backgroundWorker2.ReportProgress(i);//progres bar'a rapor..
                     }
                     MessageBox.Show("Dönüştürme Başarılı bir şekilde yapıldı\n Konum:\n\n" + path + @"\Yeni_Pdf_Dosyaları", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
