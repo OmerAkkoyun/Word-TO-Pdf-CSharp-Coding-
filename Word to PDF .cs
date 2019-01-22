@@ -1,7 +1,7 @@
 using Microsoft.Office.Interop.Word;
 
 
-OpenFileDialog file2 = new OpenFileDialog(); // sadece word için
+OpenFileDialog file2 = new OpenFileDialog(); // sadece word için kullanılacak
 
 private void DosyaSec_Click(object sender, EventArgs e) //dosya seç butonu
         {
